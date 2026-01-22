@@ -34,7 +34,7 @@ public:
     target_frame_ = this->declare_parameter<std::string>("target_frame", "");
 
     // ---- Pub/Sub ----
-    rclcpp::QoS qos{rclcpp::SensorDataQoS()};
+    rclcpp::QoS qos{rclcpp::SensorDataQoS(rclcpp::KeepLast(10)).reliable()};
     sub_ = this->create_subscription<sensor_msgs::msg::PointCloud2>(
       input_topic_, qos,
       std::bind(&PointCloudToLaserScanZFilter::cloudCallback, this, std::placeholders::_1));
